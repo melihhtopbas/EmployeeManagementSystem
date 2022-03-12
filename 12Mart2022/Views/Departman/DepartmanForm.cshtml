@@ -1,0 +1,25 @@
+﻿@model _12Mart2022.Models.EntityFramework.Departman
+@{
+    ViewBag.Title = "Yeni";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<form method="post" action="">
+    <div class="form-group">
+        <label>Departman Adı</label>
+        <input type="text" name="Ad" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-success">Ekle</button>
+</form>*@
+
+@using (Html.BeginForm("Kaydet", "Departman", FormMethod.Post))
+{
+<div class="form-group">
+    @Html.LabelFor(m=>m.Ad)
+    @Html.TextBoxFor(m=>m.Ad, new {@class="form-control"})
+</div>
+@Html.HiddenFor(m => m.Id);
+<button type="submit" class="btn btn-success">Kaydet</button>
+}
+            
+

@@ -1,0 +1,60 @@
+﻿@model List<_12Mart2022.Models.EntityFramework.Personel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Personel Listesi</h2>
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>Ad </th>
+            <th>Soyad </th>
+            <th>Departman </th>
+            <th>Maaş </th>
+            <th>Yaş </th>
+            <th>Doğum Tarihi </th>
+            <th>Cinsiyet </th>
+            <th>Evlilik Durumu </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var personel in Model)
+        {
+            <tr>
+                <td>@personel.Ad</td>
+                <td>@personel.Soyad</td>
+                <td>@personel.DepartmanId</td>
+                <td>@personel.Maas</td>
+                <td>@(DateTime.Now.Year - personel.DogumTarihi.Value.Year)</td>
+                <td>@personel.DogumTarihi.Value.ToString("dd-MM-yyyy")</td>
+                <td>
+                    @if (personel.Cinsiyet)
+                    {
+                        <span>Erkek</span>
+                    }
+                    else
+                    {
+                        <span>Kadın</span>
+                    }
+            </td>
+            <td>
+                @if (personel.EvliMi)
+                {
+                    <span>Evli</span>
+                }
+                else
+                {
+                    <span>Bekar</span>
+                }
+        </td>
+    </tr>
+}
+
+    </tbody>
+
+
+</table>
+
