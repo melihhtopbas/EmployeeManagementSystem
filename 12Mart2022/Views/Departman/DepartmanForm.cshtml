@@ -5,21 +5,28 @@
 }
 
 @*<form method="post" action="">
-    <div class="form-group">
-        <label>Departman Adı</label>
-        <input type="text" name="Ad" class="form-control" />
-    </div>
-    <button type="submit" class="btn btn-success">Ekle</button>
-</form>*@
+        <div class="form-group">
+            <label>Departman Adı</label>
+            <input type="text" name="Ad" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-success">Ekle</button>
+    </form>*@
 
 @using (Html.BeginForm("Kaydet", "Departman", FormMethod.Post))
 {
-<div class="form-group">
-    @Html.LabelFor(m=>m.Ad)
-    @Html.TextBoxFor(m=>m.Ad, new {@class="form-control"})
-</div>
-@Html.HiddenFor(m => m.Id);
-<button type="submit" class="btn btn-success">Kaydet</button>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Ad)
+        @Html.TextBoxFor(m => m.Ad, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Ad)
+    </div>
+
+    @Html.HiddenFor(m => m.Id);
+    <button type="submit" class="btn btn-success">Kaydet</button>
 }
-            
+
+@section scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}
+
 

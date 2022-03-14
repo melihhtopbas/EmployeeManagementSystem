@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+@Html.ActionLink("Yeni Personel", "Yeni", null, new { @class = "btn btn-success" })
 <h2>Personel Listesi</h2>
 <table class="table table-bordered">
 
@@ -23,22 +23,22 @@
     <tbody>
         @foreach (var personel in Model)
         {
-            <tr>
-                <td>@personel.Ad</td>
-                <td>@personel.Soyad</td>
-                <td>@personel.DepartmanId</td>
-                <td>@personel.Maas</td>
-                <td>@(DateTime.Now.Year - personel.DogumTarihi.Value.Year)</td>
-                <td>@personel.DogumTarihi.Value.ToString("dd-MM-yyyy")</td>
-                <td>
-                    @if (personel.Cinsiyet)
-                    {
-                        <span>Erkek</span>
-                    }
-                    else
-                    {
-                        <span>Kadın</span>
-                    }
+        <tr>
+            <td>@personel.Ad</td>
+            <td>@personel.Soyad</td>
+            <td>@personel.Departman.Ad </td>
+            <td>@personel.Maas</td>
+            <td>@(DateTime.Now.Year - personel.DogumTarihi.Value.Year)</td>
+            <td>@personel.DogumTarihi.Value.ToString("dd-MM-yyyy")</td>
+            <td>
+                @if (personel.Cinsiyet)
+                {
+                    <span>Erkek</span>
+                }
+                else
+                {
+                    <span>Kadın</span>
+                }
             </td>
             <td>
                 @if (personel.EvliMi)
@@ -49,9 +49,11 @@
                 {
                     <span>Bekar</span>
                 }
-        </td>
-    </tr>
-}
+            </td>
+            <td>@Html.ActionLink("Güncelle", "Guncelle", new { tasinacakId = personel.Id }, new { @class = "btn btn-success" })</td>>
+            <td>@Html.ActionLink("Sil", "Sil", new { tasinacakId = personel.Id }, new { @class = "btn btn-danger" })</td>>
+        </tr>
+        }
 
     </tbody>
 

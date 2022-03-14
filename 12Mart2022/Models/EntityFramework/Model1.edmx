@@ -16,7 +16,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DepartmanId" Type="int" />
           <Property Name="Ad" Type="nvarchar" MaxLength="50" />
           <Property Name="Soyad" Type="nvarchar" MaxLength="50" />
@@ -25,9 +25,25 @@
           <Property Name="Cinsiyet" Type="bit" Nullable="false" />
           <Property Name="EvliMi" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Personel_ToTable">
+          <End Role="Departman" Type="Self.Departman" Multiplicity="0..1" />
+          <End Role="Personel" Type="Self.Personel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departman">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Personel">
+              <PropertyRef Name="DepartmanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="mysqlModelStoreContainer">
           <EntitySet Name="Departman" EntityType="Self.Departman" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Personel" EntityType="Self.Personel" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Personel_ToTable" Association="Self.FK_Personel_ToTable">
+            <End Role="Departman" EntitySet="Departman" />
+            <End Role="Personel" EntitySet="Personel" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -39,16 +55,21 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Personel" Relationship="mysqlModel.FK_Personel_ToTable" FromRole="Departman" ToRole="Personel" />
         </EntityType>
         <EntityContainer Name="mysqlEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Departman" EntityType="Self.Departman" />
           <EntitySet Name="Personel" EntityType="mysqlModel.Personel" />
+          <AssociationSet Name="FK_Personel_ToTable" Association="mysqlModel.FK_Personel_ToTable">
+            <End Role="Departman" EntitySet="Departman" />
+            <End Role="Personel" EntitySet="Personel" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Personel">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DepartmanId" Type="Int32" />
           <Property Name="Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Soyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -56,7 +77,20 @@
           <Property Name="DogumTarihi" Type="DateTime" Precision="0" />
           <Property Name="Cinsiyet" Type="Boolean" Nullable="false" />
           <Property Name="EvliMi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Departman" Relationship="mysqlModel.FK_Personel_ToTable" FromRole="Personel" ToRole="Departman" />
         </EntityType>
+        <Association Name="FK_Personel_ToTable">
+          <End Type="mysqlModel.Departman" Role="Departman" Multiplicity="0..1" />
+          <End Type="mysqlModel.Personel" Role="Personel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departman">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Personel">
+              <PropertyRef Name="DepartmanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
