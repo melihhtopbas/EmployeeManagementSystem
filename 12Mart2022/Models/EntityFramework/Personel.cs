@@ -11,33 +11,16 @@ namespace _12Mart2022.Models.EntityFramework
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Personel
     {
         public int Id { get; set; }
-
-        [Display(Name ="Departman Adý")]
-        [Required(ErrorMessage ="Lütfen bir departman seçiniz!")]
         public Nullable<int> DepartmanId { get; set; }
-        [Required(ErrorMessage = "Lütfen adýnýzý giriniz")]
         public string Ad { get; set; }
-        [Required(ErrorMessage = "Lütfen soy adýnýzý giriniz")]
         public string Soyad { get; set; }
-        
-        [Display(Name = "Maaþ")]
-        [Required(ErrorMessage = "Lütfen maaþýnýzý giriniz")]
-        [Range(999,19999,ErrorMessage ="Lütfen 1000 ve 20.000 arasýnda bir maaþ giriniz!")]
         public Nullable<short> Maas { get; set; }
-
-        [Display(Name = "Doðum Tarihi")]
-        [Required(ErrorMessage = "Lütfen doðum tarihinizi giriniz")]
         public Nullable<System.DateTime> DogumTarihi { get; set; }
-        [Required(ErrorMessage = "Lütfen cinsiyetinizi giriniz")]
         public bool Cinsiyet { get; set; }
-
-        [Display(Name = "Evlilik Durumu")]
-        
         public bool EvliMi { get; set; }
     
         public virtual Departman Departman { get; set; }

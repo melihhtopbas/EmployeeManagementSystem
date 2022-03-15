@@ -27,5 +27,6 @@ namespace _12Mart2022.Models.EntityFramework
     
         public virtual DbSet<Departman> Departman { get; set; }
         public virtual DbSet<Personel> Personel { get; set; }
+        public virtual DbSet<Kullanici> Kullanici { get; set; }
     }
 }

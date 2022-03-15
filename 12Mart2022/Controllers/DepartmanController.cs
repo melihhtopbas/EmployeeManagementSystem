@@ -12,7 +12,7 @@ namespace _12Mart2022.Controllers
         // GET: Departman
         mysqlEntities db = new mysqlEntities();
 
-        // GET: Departman
+        [Authorize]
         public ActionResult Index()
         {
             var model = db.Departman.ToList();
