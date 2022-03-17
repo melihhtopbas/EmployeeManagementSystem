@@ -7,12 +7,14 @@ using System.Web.Mvc;
 
 namespace _12Mart2022.Controllers
 {
+    [Authorize]
+    [Authorize(Roles = "A,B")]
     public class DepartmanController : Controller
     {
         // GET: Departman
-        mysqlEntities db = new mysqlEntities();
+        private mysqlEntities db = new mysqlEntities();
 
-        [Authorize]
+        
         public ActionResult Index()
         {
             var model = db.Departman.ToList();

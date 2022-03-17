@@ -8,6 +8,8 @@ using System.Web.Mvc;
 
 namespace _12Mart2022.Controllers
 {
+
+    [Authorize(Roles = "A,B")]
     public class PersonelController : Controller
     {
         mysqlEntities db = new mysqlEntities();
@@ -18,6 +20,7 @@ namespace _12Mart2022.Controllers
             return View(model);
         }
 
+        
         public ActionResult Yeni()
         {
             var model = new PersonelFormViewModel()
@@ -54,18 +57,18 @@ namespace _12Mart2022.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Guncelle(int tasinacakId)
+        public ActionResult Guncelle(int id)
         {
             var model = new PersonelFormViewModel()
             {
                 Departmanlar = db.Departman.ToList(),
-                Personel = db.Personel.Find(tasinacakId)
+                Personel = db.Personel.Find(id)
             };
             return View("PersonelForm", model);
         }
-        public ActionResult Sil(int tasinacakId)
+        public ActionResult Sil(int id)
         {
-            var silinecekPersonel = db.Personel.Find(tasinacakId);
+            var silinecekPersonel = db.Personel.Find(id);
             if (silinecekPersonel == null)
             {
                 return HttpNotFound();

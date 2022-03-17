@@ -6,7 +6,7 @@
 
 @Html.ActionLink("Yeni Personel", "Yeni", null, new { @class = "btn btn-success" })
 <h2>Personel Listesi</h2>
-<table class="table table-bordered">
+<table class="table table-bordered" id="tblPersoneller">
 
     <thead>
         <tr>
@@ -50,8 +50,8 @@
                     <span>Bekar</span>
                 }
             </td>
-            <td>@Html.ActionLink("Güncelle", "Guncelle", new { tasinacakId = personel.Id }, new { @class = "btn btn-success" })</td>>
-            <td>@Html.ActionLink("Sil", "Sil", new { tasinacakId = personel.Id }, new { @class = "btn btn-danger" })</td>>
+            <td>@Html.ActionLink("Güncelle", "Guncelle", new { id = personel.Id }, new { @class = "btn btn-success" })</td>>
+            <td>@Html.ActionLink("Sil", "Sil", new { id = personel.Id }, new { @class = "btn btn-danger"})</td>>
         </tr>
         }
 

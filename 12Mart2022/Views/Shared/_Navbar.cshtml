@@ -2,12 +2,22 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">Personel Yönetim Sistemi</a>
+           
         </div>
         <ul class="nav navbar-nav">
             <li class="active"><a href="/Departman">Home</a></li>
             <li><a href="/Personel">Personeller</a></li>
-            <li><a href="#">Giriş Yap</a></li>
-            <li><a href="#">Üye ol</a></li>
+            @if (User.IsInRole("A"))
+            {
+                <li><a href="/Kullanici/Index">Kullanıcılar</a></li>
+            }
+
+            <li><a href="/Security/LogOut">Çıkış Yap</a></li>
+
         </ul>
+        
     </div>
 </nav>
+<div class="center">
+    <h3>Hoş Geldiniz @HttpContext.Current.User.Identity.Name</h3>
+</div>

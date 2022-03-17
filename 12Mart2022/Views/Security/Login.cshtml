@@ -1,4 +1,4 @@
-﻿
+﻿@model _12Mart2022.Models.EntityFramework.Kullanici
 @{
     Layout = null;
 }
@@ -33,10 +33,12 @@
     </head>
     <body>
         <div class="container">
+           
+            @using (Html.BeginForm("Login","Security",FormMethod.Post)) {
             <div class="d-flex justify-content-center h-100">
                 <div class="card">
                     <div class="card-header">
-                        <h3>Sign In</h3>
+                        <h3>Giriş Yap</h3>
                         <div class="d-flex justify-content-end social_icon">
                             <span><i class="fab fa-facebook-square"></i></span>
                             <span><i class="fab fa-google-plus-square"></i></span>
@@ -49,20 +51,24 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="username">
+                                @Html.LabelFor(m => m.Ad)
+                                @Html.TextBoxFor(m => m.Ad, new { @class = "form-control", placeholder = "Kullanıcı Adı" })
 
                             </div>
                             <div class="input-group form-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-key"></i></span>
                                 </div>
-                                <input type="password" class="form-control" placeholder="password">
+                                @Html.LabelFor(m => m.Sifre)
+                                @Html.TextBoxFor(m => m.Sifre, new { @class = "form-control", placeholder = "Parola" })
                             </div>
                             <div class="row align-items-center remember">
                                 <input type="checkbox">Remember Me
                             </div>
+                            <div class="alert-danger">  @ViewBag.Mesaj</div>
+                            <div class="success">  @ViewBag.Mesaj1</div>
                             <div class="form-group">
-                                <input type="submit" value="Login" class="btn float-right login_btn">
+                                <input type="submit" value="Giriş Yap" class="btn float-right login_btn">
                             </div>
                         </form>
                     </div>
@@ -76,6 +82,7 @@
                     </div>
                 </div>
             </div>
+            }
         </div>
     </body>
 </html>
