@@ -1,4 +1,5 @@
 ﻿using _12Mart2022.Models.EntityFramework;
+using _12Mart2022.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,9 +34,12 @@ namespace _12Mart2022.Controllers
             {
                 return View("DepartmanForm");
             }
+            MesajViewModel model = new MesajViewModel();
             if (departman.Id==0)
             {
                 db.Departman.Add(departman);
+                model.Mesaj = departman.Ad + " departmanı başarıyla eklendi!";
+
             }
             else
             {
@@ -44,12 +48,16 @@ namespace _12Mart2022.Controllers
                     return HttpNotFound();
                 else
                     guncellenecekDepartman.Ad = departman.Ad;
+                model.Mesaj = departman.Ad + " başarıyla güncellendi!";
 
-               
+
             }
 
             db.SaveChanges();
-            return RedirectToAction("Index","Departman");
+            model.Status = true;
+            model.LinkText = "Departman listesine dönmek için tıklayın.";
+            model.Url = "/Departman";
+           return View("_Mesaj",model);
         }
         public ActionResult Guncelle(int id)
         {

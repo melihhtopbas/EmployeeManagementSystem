@@ -11,8 +11,12 @@
         </div>
         <button type="submit" class="btn btn-success">Ekle</button>
     </form>*@
+<div id="mesaj">
 
-@using (Html.BeginForm("Kaydet", "Departman", FormMethod.Post))
+</div>
+
+
+@using (Ajax.BeginForm("Kaydet", "Departman", new AjaxOptions { HttpMethod = "POST" ,UpdateTargetId="mesaj"}))
 {
     <div class="form-group">
         @Html.LabelFor(m => m.Ad)

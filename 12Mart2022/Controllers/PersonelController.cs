@@ -33,6 +33,7 @@ namespace _12Mart2022.Controllers
         }
         public ActionResult Kaydet(Personel personel)
         {
+            MesajViewModel mesajModel = new MesajViewModel();
             if (!ModelState.IsValid)
             {
                 var model = new PersonelFormViewModel()
@@ -46,15 +47,21 @@ namespace _12Mart2022.Controllers
             if (personel.Id == 0) //ekleme
             {
                 db.Personel.Add(personel);
+                mesajModel.Mesaj = personel.Ad + " personeli başarıyla eklnedi!";
+
             }
             else//Güncelleme
             {
                 db.Entry(personel).State = System.Data.Entity.EntityState.Modified;
+                mesajModel.Mesaj = personel.Ad + " personeli başarıyla güncellendi";
             }
 
             db.SaveChanges();
+            mesajModel.Status = true;
+            mesajModel.LinkText = "Personel listesine dönmek için tıklayın.";
+            mesajModel.Url = "/Personel";
+            return View("_Mesaj", mesajModel);
 
-            return RedirectToAction("Index");
         }
 
         public ActionResult Guncelle(int id)
@@ -76,6 +83,21 @@ namespace _12Mart2022.Controllers
             db.Personel.Remove(silinecekPersonel);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+        public ActionResult PersonelleriListele(int id)
+            
+        {
+             var model = db.Personel.Where(x=>x.DepartmanId==id).ToList();
+            return PartialView(model);
+        }
+        //public ActionResult ToplamMaas()
+        //{
+        //    ViewBag.Maas = db.Personel.Sum(x=>x.Maas);
+        //    return PartialView();
+        //}
+        public int? ToplamMaas()
+        {
+            return db.Personel.Sum(x => x.Maas);
         }
     }
 }

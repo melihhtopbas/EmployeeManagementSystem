@@ -18,12 +18,13 @@ namespace _12Mart2022.Controllers
             return View();
         }
         [HttpPost]
+        //var kullaniciInDb = db.Kullanici.FirstOrDefault(x => x.Ad == kullanici.Ad && x.Sifre == kullanici.Sifre);
         public ActionResult Login(Kullanici kullanici)
         {
-            var kullaniciInDb = db.Kullanici.FirstOrDefault(x => x.Ad == kullanici.Ad && x.Sifre == kullanici.Sifre);
-            if (kullaniciInDb!=null)
+           var kullaniciIndb = db.Kullanici.FirstOrDefault(x => x.Ad == kullanici.Ad && x.Sifre == kullanici.Sifre);
+            if (kullaniciIndb != null)
             {
-                FormsAuthentication.SetAuthCookie(kullaniciInDb.Ad, false);
+                FormsAuthentication.SetAuthCookie(kullaniciIndb.Ad, false);
                 ViewBag.Mesaj1 = "Giriş başarılı.. Yönlendiriliyorsunuz..";
                 return RedirectToAction("Index","Departman");
             }
