@@ -1,0 +1,72 @@
+﻿@model _12Mart2022.ViewModels.NewPersonelVM
+
+<div class="editorRow">
+    @using (Html.BeginCollectionItem("Personels"))
+    {
+       
+        <table class="table table-bordered">
+
+            <tr>
+                <td class="form-group">
+                    @Html.LabelFor(m => m.Ad)
+                    @Html.TextBoxFor(m => m.Ad, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Ad)
+                </td>
+
+                <td class="form-group">
+                    @Html.LabelFor(m => m.Soyad)
+                    @Html.TextBoxFor(m => m.Soyad, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Soyad)
+                </td>
+
+                <td class="form-group">
+                    @Html.LabelFor(m => m.Maas)
+                    @Html.TextBoxFor(m => m.Maas, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Maas)
+                </td>
+
+                <td class="form-group">
+                    @Html.LabelFor(m => m.DogumTarihi)
+                    @Html.TextBoxFor(m => m.DogumTarihi, "{0:yyyy-MM-dd}", new
+                    {
+                        @class = "form-control",
+                        type = "date",
+                        onchange = "CheckDateTypeIsValıd(this)"
+                    })
+                    @Html.ValidationMessageFor(m => m.DogumTarihi)
+                </td>
+
+                <td class="form-group">
+                    <label>
+                        @Html.RadioButtonFor(m => m.Cinsiyet, true) Erkek
+                    </label>
+                    <label>
+                        @Html.RadioButtonFor(m => m.Cinsiyet, false) Kadın
+                    </label>
+                    @Html.ValidationMessageFor(m => m.Cinsiyet)
+                </td>
+
+                <td class="form-group">
+                    <label>
+                        @Html.CheckBoxFor(m => m.EvliMi, true) Evliyseniz seçiniz
+                    </label>
+                </td>
+
+                <td>
+                    <input type="file" name="file" />
+                </td>
+                <td>
+                    <span class="dltBtn">
+                        <input type="image" src="~/Image/carpı.png" width="75" height="75" class="deleteRow btn btn-danger" />
+                    </span>
+                </td>
+            </tr>
+
+
+
+            @Html.HiddenFor(m => m.Id)
+           
+        </table>
+        
+    }
+</div>

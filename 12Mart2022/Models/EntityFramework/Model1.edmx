@@ -11,6 +11,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Ad" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PersonelSayisi" Type="int" />
         </EntityType>
         <EntityType Name="Kullanici">
           <Key>
@@ -33,6 +34,25 @@
           <Property Name="DogumTarihi" Type="smalldatetime" />
           <Property Name="Cinsiyet" Type="bit" Nullable="false" />
           <Property Name="EvliMi" Type="bit" Nullable="false" />
+          <Property Name="PersonelGorsel" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Resim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PathName" Type="nvarchar(max)" />
+          <Property Name="ImageId" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <Association Name="FK_Personel_ToTable">
           <End Role="Departman" Type="Self.Departman" Multiplicity="0..1" />
@@ -46,36 +66,80 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Resim_Personel">
+          <End Role="Personel" Type="Self.Personel" Multiplicity="0..1" />
+          <End Role="Resim" Type="Self.Resim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Resim">
+              <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="mysqlModelStoreContainer">
           <EntitySet Name="Departman" EntityType="Self.Departman" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kullanici" EntityType="Self.Kullanici" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Personel" EntityType="Self.Personel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Resim" EntityType="Self.Resim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Personel_ToTable" Association="Self.FK_Personel_ToTable">
             <End Role="Departman" EntitySet="Departman" />
             <End Role="Personel" EntitySet="Personel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Resim_Personel" Association="Self.FK_Resim_Personel">
+            <End Role="Personel" EntitySet="Personel" />
+            <End Role="Resim" EntitySet="Resim" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="mysqlModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Departman">
+        <EntityType Name="Kullanici">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Personel" Relationship="mysqlModel.FK_Personel_ToTable" FromRole="Departman" ToRole="Personel" />
+          <Property Name="Sifre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityContainer Name="mysqlEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Departman" EntityType="Self.Departman" />
+        <EntityContainer Name="masterEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Kullanici" EntityType="Self.Kullanici" />
+          <EntitySet Name="sysdiagrams" EntityType="mysqlModel.sysdiagrams" />
+          <EntitySet Name="Departman" EntityType="mysqlModel.Departman" />
           <EntitySet Name="Personel" EntityType="mysqlModel.Personel" />
+          <EntitySet Name="Resim" EntityType="mysqlModel.Resim" />
           <AssociationSet Name="FK_Personel_ToTable" Association="mysqlModel.FK_Personel_ToTable">
             <End Role="Departman" EntitySet="Departman" />
             <End Role="Personel" EntitySet="Personel" />
           </AssociationSet>
-          <EntitySet Name="Kullanici" EntityType="mysqlModel.Kullanici" />
+          <AssociationSet Name="FK_Resim_Personel" Association="mysqlModel.FK_Resim_Personel">
+            <End Role="Personel" EntitySet="Personel" />
+            <End Role="Resim" EntitySet="Resim" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Departman">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PersonelSayisi" Type="Int32" />
+          <NavigationProperty Name="Personel" Relationship="mysqlModel.FK_Personel_ToTable" FromRole="Departman" ToRole="Personel" />
+        </EntityType>
         <EntityType Name="Personel">
           <Key>
             <PropertyRef Name="Id" />
@@ -88,7 +152,18 @@
           <Property Name="DogumTarihi" Type="DateTime" Precision="0" />
           <Property Name="Cinsiyet" Type="Boolean" Nullable="false" />
           <Property Name="EvliMi" Type="Boolean" Nullable="false" />
+          <Property Name="PersonelGorsel" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Departman" Relationship="mysqlModel.FK_Personel_ToTable" FromRole="Personel" ToRole="Departman" />
+          <NavigationProperty Name="Resim" Relationship="mysqlModel.FK_Resim_Personel" FromRole="Personel" ToRole="Resim" />
+        </EntityType>
+        <EntityType Name="Resim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PathName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageId" Type="Int32" />
+          <NavigationProperty Name="Personel" Relationship="mysqlModel.FK_Resim_Personel" FromRole="Resim" ToRole="Personel" />
         </EntityType>
         <Association Name="FK_Personel_ToTable">
           <End Type="mysqlModel.Departman" Role="Departman" Multiplicity="0..1" />
@@ -102,32 +177,58 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Kullanici">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Ad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Sifre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Role" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-        </EntityType>
+        <Association Name="FK_Resim_Personel">
+          <End Type="mysqlModel.Personel" Role="Personel" Multiplicity="0..1" />
+          <End Type="mysqlModel.Resim" Role="Resim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Resim">
+              <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="mysqlModelStoreContainer" CdmEntityContainer="mysqlEntities">
+        <EntityContainerMapping StorageEntityContainer="mysqlModelStoreContainer" CdmEntityContainer="masterEntities">
+          <EntitySetMapping Name="Kullanici">
+            <EntityTypeMapping TypeName="mysqlModel.Kullanici">
+              <MappingFragment StoreEntitySet="Kullanici">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Sifre" ColumnName="Sifre" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="mysqlModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Departman">
             <EntityTypeMapping TypeName="mysqlModel.Departman">
               <MappingFragment StoreEntitySet="Departman">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PersonelSayisi" ColumnName="PersonelSayisi" />
                 <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Personel">
             <EntityTypeMapping TypeName="mysqlModel.Personel">
               <MappingFragment StoreEntitySet="Personel">
+                <ScalarProperty Name="PersonelGorsel" ColumnName="PersonelGorsel" />
                 <ScalarProperty Name="EvliMi" ColumnName="EvliMi" />
                 <ScalarProperty Name="Cinsiyet" ColumnName="Cinsiyet" />
                 <ScalarProperty Name="DogumTarihi" ColumnName="DogumTarihi" />
@@ -139,12 +240,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Kullanici">
-            <EntityTypeMapping TypeName="mysqlModel.Kullanici">
-              <MappingFragment StoreEntitySet="Kullanici">
-                <ScalarProperty Name="Role" ColumnName="Role" />
-                <ScalarProperty Name="Sifre" ColumnName="Sifre" />
-                <ScalarProperty Name="Ad" ColumnName="Ad" />
+          <EntitySetMapping Name="Resim">
+            <EntityTypeMapping TypeName="mysqlModel.Resim">
+              <MappingFragment StoreEntitySet="Resim">
+                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+                <ScalarProperty Name="PathName" ColumnName="PathName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

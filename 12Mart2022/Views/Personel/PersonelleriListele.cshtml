@@ -1,25 +1,54 @@
-﻿@model IEnumerable<_12Mart2022.Models.EntityFramework.Personel>
+﻿@model IEnumerable<_12Mart2022.ViewModels.PersonelListVM>
 <h1>Personeller Listesi</h1>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Ad</th>
-            <th>Soyad</th>
-            <th>Doğum Tarihi</th>
-            <th>Maaş</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var personel in Model)
-        {
-        <tr>
-            <td>@personel.Ad</td>
-            <td>@personel.Soyad</td>
-            <td>@personel.DogumTarihi.Value.ToShortDateString()</td>
-            <td>@personel.Maas</td>
-        </tr>
-        }
+@if (Model.Sum(x => x.Maas) > 0)
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Ad</th>
+                <th>Soyad</th>
+                <th>Doğum Tarihi</th>
+                <th>Maaş</th>
+                <th>Profil Resmi</th>
+                <th>Ait Olduğu Departman</th>
+            </tr>
+        </thead>
+        <tbody>
 
-    </tbody>
-</table>
+            @foreach (var personel in Model)
+            {
+                <tr>
+                    <td>@personel.Ad</td>
+                    <td>@personel.Soyad</td>
+                    <td>@personel.DogumTarihi.Value.ToShortDateString()</td>
+                    <td>@personel.Maas</td>
+                    <td>
+                        @foreach (var item in personel.Resimler)
+                        {
+
+
+                            <a class="fancybox" href="@item" data-fancybox="group_@personel.Id">
+                                <img src="@item" height="64" width="64" />
+                            </a>
+
+                        }
+
+
+                    </td>
+                    <td>@personel.Departman.Ad</td>
+                </tr>
+            }
+
+
+
+
+
+        </tbody>
+    </table>
+}
+else
+{
+    <h3>@ViewData["departmanAdi"] departmanına ait personel yok!</h3>
+}
+

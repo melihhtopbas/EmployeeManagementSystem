@@ -1,62 +1,146 @@
-﻿@model List<_12Mart2022.Models.EntityFramework.Personel>
+﻿@using _12Mart2022.Models.EntityFramework
+@model List<_12Mart2022.ViewModels.PersonelListVM>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@Html.ActionLink("Yeni Personel", "Yeni", null, new { @class = "btn btn-success" })
-<h2>Personel Listesi</h2>
-<table class="table table-bordered" id="tblPersoneller">
+@*@Html.ActionLink("Yeni Personel", "Yeni", null, new { @class = "btn btn-success" })*@
+<a class="btn btn-success" id="personelBtn">Yeni Personel</a>
 
+@if (User.IsInRole("A"))
+{
+    <script>
+        document.getElementById('personelBtn').addEventListener('click', function () {
+            Swal.fire({
+                title: 'Yeni personel eklemek istediğinize emin misiniz?',
+                icon: 'question',
+                iconHtml: '?',
+                confirmButtonText: 'Evet',
+                cancelButtonText: 'Hayır',
+                showCancelButton: true,
+                showCloseButton: true,
+
+
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.href = "/Personel/Yeni"
+                }
+            })
+        })
+    </script>
+}
+
+@if (User.IsInRole("B"))
+{
+    <script>
+        document.getElementById('personelBtn').addEventListener('click', function () {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Yetkiniz yok!',
+                footer: '<a href="/Departman/Index">Ana sayfaya dönmek için tıklayın</a>'
+            })
+
+        })
+    </script>
+}
+
+
+
+
+<h2>Personel Listesi</h2>
+<table id="tblPersoneller" class="table table-bordered">
     <thead>
         <tr>
             <th>Ad </th>
             <th>Soyad </th>
+            <th>Resim</th>
             <th>Departman </th>
             <th>Maaş </th>
             <th>Yaş </th>
             <th>Doğum Tarihi </th>
             <th>Cinsiyet </th>
             <th>Evlilik Durumu </th>
+            @if (User.IsInRole("A"))
+            {
+                <th>Güncelle </th>
+                <th>Sil </th>
+            }
+
+
         </tr>
     </thead>
     <tbody>
         @foreach (var personel in Model)
         {
-        <tr>
-            <td>@personel.Ad</td>
-            <td>@personel.Soyad</td>
-            <td>@personel.Departman.Ad </td>
-            <td>@personel.Maas</td>
-            <td>@(DateTime.Now.Year - personel.DogumTarihi.Value.Year)</td>
-            <td>@personel.DogumTarihi.Value.ToString("dd-MM-yyyy")</td>
-            <td>
-                @if (personel.Cinsiyet)
+            <tr>
+                <td>@personel.Ad</td>
+                <td>@personel.Soyad</td>
+
+                <td>
+                    @foreach (var item in personel.Resimler)
+                    {
+                       
+
+                    <a class="fancybox" href="@item" data-fancybox="group_@personel.Id">
+                        <img src="@item" height="64" width="64"/>
+                    </a>
+
+                    }
+
+
+                </td>
+
+
+
+                <td>@personel.Departman.Ad </td>
+                <td>@personel.Maas</td>
+                <td>@(DateTime.Now.Year - personel.DogumTarihi.Value.Year)</td>
+                <td>@personel.DogumTarihi.Value.ToString("dd-MM-yyyy")</td>
+                <td>
+                    @if (personel.Cinsiyet)
+                    {
+                        <span>Erkek</span>
+                    }
+                    else
+                    {
+                        <span>Kadın</span>
+                    }
+                </td>
+                <td>
+                    @if (personel.EvliMi)
+                    {
+                        <span>Evli</span>
+                    }
+                    else
+                    {
+                        <span>Bekar</span>
+                    }
+                </td>
+                @if (User.IsInRole("A"))
                 {
-                    <span>Erkek</span>
+                    <td><a class="btn btn-primary" href="/Personel/Guncelle/@personel.Id">Güncelle </a></td>
+                    <td><a class="btn btn-warning btnPersonelSil" data-id="@personel.Id">Sil </a></td>
                 }
-                else
-                {
-                    <span>Kadın</span>
-                }
-            </td>
-            <td>
-                @if (personel.EvliMi)
-                {
-                    <span>Evli</span>
-                }
-                else
-                {
-                    <span>Bekar</span>
-                }
-            </td>
-            <td>@Html.ActionLink("Güncelle", "Guncelle", new { id = personel.Id }, new { @class = "btn btn-success" })</td>>
-            <td>@Html.ActionLink("Sil", "Sil", new { id = personel.Id }, new { @class = "btn btn-danger"})</td>>
-        </tr>
+
+            </tr>
         }
 
     </tbody>
 
 
 </table>
+<script>
+    $(function () {
+        $("#tblPersoneller").dataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+            }
+        });
+
+
+    });
+</script>
 

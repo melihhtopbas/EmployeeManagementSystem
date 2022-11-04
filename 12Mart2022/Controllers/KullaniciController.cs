@@ -13,7 +13,7 @@ namespace _12Mart2022.Controllers
     [Authorize(Roles = "A")]
     public class KullaniciController : Controller
     {
-        private mysqlEntities db = new mysqlEntities();
+        private masterEntities db = new masterEntities();
 
         // GET: Kullanici
         public ActionResult Index()

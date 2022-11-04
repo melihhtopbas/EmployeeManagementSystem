@@ -1,0 +1,62 @@
+﻿@model _12Mart2022.ViewModels.MultiplePersonel
+
+@{
+    ViewBag.Title = "Yeni";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="mesaj"></div>
+
+@Html.ActionLink("Personel Eklemek İçin Tıklayın", "StudentManager1", "Personel", null, new { id = "addItemStudents2", @class = "btn btn-info" })
+<div id="studentList1">
+    @using (Html.BeginForm("CreatePersonels", "Personel", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        
+        <div id="editorRowsStudents2">
+            @if (Model.Personeller != null && Model.Personeller.Count > 0)
+            {
+
+                foreach (var item in Model.Personeller)
+                {
+                    @Html.Partial("~/Views/Personel/_CokluPersonel.cshtml", item)
+                    // item.Departman.Ad = Model.Departman.Ad;
+
+
+                }
+            }
+
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Kaydet" class="btn btn-success" />
+
+            </div>
+        </div>
+    }
+
+
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+    $(function () {
+        $('#addItemStudents2').on('click', function () {
+            $.ajax({
+                url: '@Url.Action("StudentManager1")',
+                    cache: false,
+                    success: function (html) { $("#editorRowsStudents2").append(html); }
+                });
+                return false;
+            });
+            $('#editorRowsStudents2').on('click', '.deleteRow2', function () {
+                $(this).closest('.editorRow2').remove();
+            });
+
+        });
+    </script>
+}
+
+

@@ -1,5 +1,4 @@
-﻿
-@model _12Mart2022.ViewModels.MesajViewModel
+﻿@model _12Mart2022.ViewModels.MesajViewModel
 
 @if (Model.Status)
 {
@@ -7,10 +6,9 @@
         @Model.Mesaj <a href="@Model.Url">@Model.LinkText</a>
     </div>
 }
-
 else
 {
     <div class="alert alert-danger">
-        @Model.Mesaj <a href="@Model.Url">@Model.LinkText</a>
+        @Model.Mesaj <a href="@Model.Url">@Model.LinkText</a> 
     </div>
 }

@@ -1,24 +1,59 @@
-﻿<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Personel Yönetim Sistemi Toplam Gider: 
-             @{Html.RenderAction("ToplamMaas", "Personel");} </a>
-           
-        </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="/Departman">Home</a></li>
-            <li><a href="/Personel">Personeller</a></li>
-            @if (User.IsInRole("A"))
-            {
-                <li><a href="/Kullanici/Index">Kullanıcılar</a></li>
-            }
+﻿@using _12Mart2022.Helpers;
+<link href="~/Content/dropdown1.css" rel="stylesheet" />
+<div class="sidenav">
+    <a class="center ">Hoş Geldiniz @HttpContext.Current.User.Identity.Name<ion-icon name="airplane-outline"></ion-icon></a>
+    <a href="/Departman">Personel Yönetim Sistemi Toplam Gider: @{Html.RenderAction("ToplamMaas", "Personel");}<ion-icon name="calculator-outline"></ion-icon></a>
+    <a href="/Departman">Şirkette ait departman sayısı: @{Html.RenderAction("derSayisi", "Departman");} <ion-icon name="business-outline"></ion-icon></a>
+    <a href="/Personel">Şirkette çalışan personel sayısı: @{Html.RenderAction("perSayisi", "Departman");} <ion-icon name="id-card-outline"></ion-icon></a>
+    <a class="@Html.ActivePage("Departman","Index") list" href="/Departman">Anasayfa <ion-icon name="home-outline"></ion-icon></a>
+    <a class="@Html.ActivePage("Personel","Index") list" href="/Personel">Personeller <ion-icon name="woman-outline"></ion-icon></a>
+    @if (User.IsInRole("A"))
+    {
+        <a class="@Html.ActivePage("Kullanici","Index") list" href="/Kullanici">Kullanıcılar <ion-icon name="people-outline"></ion-icon></a>
+    }
 
-            <li><a href="/Security/LogOut">Çıkış Yap</a></li>
+    <button class="dropdown-btn">Ekleme Menüsü<i class="fa fa-caret-down"></i></button>
+    <div class="dropdown-container">
 
-        </ul>
-        
+        @if (User.IsInRole("A"))
+        {
+            <a href="/Departman/Create">Departman Ekle</a>
+            <a href="/Personel/Yeni">Personel Ekle</a>
+            <a href="/Kullanici/Create">Kullanıcı Ekle</a>
+            <a href="/Personel/CreatePersonels">Çoklu Personel Ekle</a>
+
+        }
+        @if (User.IsInRole("B"))
+        {
+            <a class="test" href="#">Departman Ekle</a>
+            <a class="test" href="#">Personel Ekle</a>
+            <a class="test" href="#">Kullanıcı Ekle</a>
+        }
     </div>
-</nav>
-<div class="center">
-    <h3>Hoş Geldiniz @HttpContext.Current.User.Identity.Name</h3>
+    <a class="list" href="~/Security/LogOut">Çıkış <ion-icon name="exit-outline"></ion-icon></a>
 </div>
+
+<script>
+    var x = document.getElementsByClassName("test");
+
+    var i;
+
+    for (i = 0; i < x.length; i++) {
+
+        x[i].addEventListener('click', function () {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Yetkiniz yok!',
+                footer: '<a href="/Departman/Index">Ana sayfaya dönmek için tıklayın</a>'
+            })
+        })
+
+    }
+</script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+
+
+

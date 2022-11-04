@@ -1,0 +1,56 @@
+﻿@model _12Mart2022.ViewModels.PersonelUpdateViewModel
+
+@{
+    ViewBag.Title = "Yeni";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div id="studentList1">
+    @using (Html.BeginForm("DepartmanPersonelGuncelle", "Departman", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+
+        <div class="form-group">
+
+            @Html.LabelFor(m => m.Departman.DepartmanAd)
+            @Html.TextBoxFor(m => m.Departman.DepartmanAd, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Departman.DepartmanAd)
+
+        </div>
+        <br />
+
+        <div id="editorRowsStudents">
+            @if (Model.Personels != null && Model.Personels.Count > 0)
+            {
+
+                foreach (var item in Model.Personels)
+                {
+                    @Html.Partial("~/Views/Personel/_Personel1.cshtml", item)
+                    // item.Departman.Ad = Model.Departman.Ad;
+
+
+                }
+            }
+
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Kaydet" class="btn btn-outline-danger" />
+
+            </div>
+        </div>
+
+        @Html.HiddenFor(x => x.Departman.DepartmanId)
+
+
+    }
+
+
+</div>
+
+
+

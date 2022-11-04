@@ -36,9 +36,11 @@ namespace _12Mart2022.Security
             throw new NotImplementedException();
         }
 
+        //mysqlEntities db = new mysqlEntities();
+        //var kullanici = db.Kullanici.FirstOrDefault(x => x.Ad == username);
         public override string[] GetRolesForUser(string username)
         {
-            mysqlEntities db = new mysqlEntities();
+            masterEntities db = new masterEntities();
             var kullanici = db.Kullanici.FirstOrDefault(x => x.Ad == username);
             return new string[] { kullanici.Role };
         }
@@ -63,4 +65,5 @@ namespace _12Mart2022.Security
             throw new NotImplementedException();
         }
     }
+   
 }

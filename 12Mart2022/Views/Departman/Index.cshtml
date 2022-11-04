@@ -1,36 +1,87 @@
 ﻿@using _12Mart2022.Models.EntityFramework
-@model List<Departman>
+
+@model List<_12Mart2022.ViewModels.DepartmanCreateVM>
+
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<a class="btn btn-success" href="/Departman/Yeni">Yeni Departman</a>
+
+@if (User.IsInRole("A"))
+{
+    <a class="btn btn-success" href="/Departman/Create">Yeni Departman</a>
+
+}
+@if (User.IsInRole("B"))
+{
+    <a class="btn btn-success" id="btn">Yeni Departman</a>
+
+}
+<script>
+    document.getElementById('btn').addEventListener('click', function () {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Yetkiniz yok!',
+            footer: '<a href="/Departman/Index">Ana sayfaya dönmek için tıklayın</a>'
+        })
+
+    })
+</script>
+
 <h2>Departman Listesi</h2>
 <table class="table table-bordered" id="tblDepartmanlar">
     <thead>
         <tr>
-            <th>ID</th>
+
             <th>Ad</th>
-            <th>Güncelle</th>
-            <th>Sil</th>
+            @if (User.IsInRole("A"))
+            {
+                <th>Güncelle</th>
+                <th>Sil</th>
+                <th>Bu Departmana Personel Ekle</th>
+
+            }
+            <th>Departmana ait Personel Sayısı</th>
             <th>Personelleri Listele</th>
+            
         </tr>
     </thead>
     <tbody>
         @foreach (var departman in Model)
         {
             <tr>
-                <th>@departman.Id</th>
-                <th>@departman.Ad</th>
-                <th><a class="btn btn-primary" href="/Departman/Guncelle/@departman.Id">Güncelle </a></th>
-                <th><a class="btn btn-warning btnDepartmanSil" data-id="@departman.Id">Sil </a></th>
-                @*<th>@Html.ActionLink("Personelleri Göster","PersonelleriListele","Personel"
-                   ,new {id=departman.Id}, new {@class="btn btn-primary"})</th>*@
-                <th>@Ajax.ActionLink("Personelleri Göster","PersonelleriListele","Personel"
-                   ,new {id = departman.Id },new AjaxOptions {HttpMethod="GET",UpdateTargetId="personelListesi" }
-                   ,new {@class="btn btn-primary"})</th>
 
+                <td>@departman.Ad</td>
+                @if (User.IsInRole("A"))
+                {
+                    <td><a class="btn btn-primary" href="/Departman/Guncelle/@departman.Id">Güncelle </a></td>
+
+                    if (departman.PersonelSayisi == 0)
+                    {
+                        <td><a class="btn btn-warning btnDepartmanSil" data-id="@departman.Id">Sil </a></td>
+
+                    }
+                    else if (departman.PersonelSayisi != 0)
+                    {
+                        <td><a class="btn btn-warning hataliSilme">Sil </a></td>
+                    }
+                    <td><a class="btn btn-outline-info" href="/Departman/NewPersonOnDepartman/@departman.Id">Bu Departmana Personel Ekle</a></td>
+
+
+
+                }
+                <td>@departman.PersonelSayisi</td>
+
+              
+                <td>
+                   
+                    @Ajax.ActionLink("Personelleri Göster Butonu", "PersonelleriListele", "Personel", new
+               { id = departman.Id }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "personelListesi" }, new { @class = "btn btn-primary" })
+                </td>
+
+                
 
             </tr>
         }
@@ -40,3 +91,18 @@
 </table>
 
 <div id="personelListesi"></div>
+
+<link rel="stylesheet" type="text/css" href="/DataTables/datatables.css">
+
+<script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>
+<script>
+    $(function () {
+        $("#tblDepartmanlar").dataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+            }
+        });
+
+
+    });
+</script>

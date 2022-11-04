@@ -13,10 +13,10 @@ namespace _12Mart2022.Models.EntityFramework
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class mysqlEntities : DbContext
+    public partial class masterEntities : DbContext
     {
-        public mysqlEntities()
-            : base("name=mysqlEntities")
+        public masterEntities()
+            : base("name=masterEntities")
         {
         }
     
@@ -25,8 +25,10 @@ namespace _12Mart2022.Models.EntityFramework
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Kullanici> Kullanici { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Departman> Departman { get; set; }
         public virtual DbSet<Personel> Personel { get; set; }
-        public virtual DbSet<Kullanici> Kullanici { get; set; }
+        public virtual DbSet<Resim> Resim { get; set; }
     }
 }
