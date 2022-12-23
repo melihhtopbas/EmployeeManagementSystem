@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<script type="text/javascript">
+
+    $(function () {
+
+        $(":input[data-autocomplete]").each(function () {
+
+            $(this).autocomplete({
+                source: $(this).attr("data-autocomplete")
+            })
+        });
+
+    });
+
+</script>
+
+<div>
+    <label>Arama</label>
+    <input type="text" data-autocomplete="@Url.Action("Search","Home")" />
+</div>

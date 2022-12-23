@@ -1,0 +1,32 @@
+﻿@model B2C.ViewModel.ProductViewModel
+
+<div class="editorRow">
+    @using (Html.BeginCollectionItem("hazırDegers"))
+    {
+        <table class="table table-bordered">
+
+            <tr>
+                <td class="form-group">
+                    <div>
+                        @Html.LabelFor(m => m.HazırDeger.HazırDegerId)
+                        @Html.DropDownListFor(m => m.HazırDeger.HazırDegerId, new SelectList(Model.hazırDegers, "HazırDegerId", "HazırDegerName"), "Value Seçiniz", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.HazırDeger.HazırDegerId)
+                    </div>
+
+                </td>
+                <td>
+                    <span class="dltBtn">
+                        <input type="image" src="~/Image/carpı.png" width="75" height="75" class="deleteRow btn btn-danger" />
+                    </span>
+                </td>
+
+            </tr>
+
+
+
+            @Html.HiddenFor(m => m.HazırDeger.HazırDegerId)
+
+        </table>
+    }
+
+    </div>

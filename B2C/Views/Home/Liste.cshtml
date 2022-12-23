@@ -1,0 +1,42 @@
+﻿@using B2C.Models.EntityFramework
+@model List<Varyants>
+@{
+    ViewBag.Title = "Liste";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Ürün Adı </th>
+            <th>Varyant Adı </th>
+            <th>Renk Adı</th>
+            
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var personel in Model)
+        {
+            <tr>
+                <td>@personel.Products.ProductName</td>
+                <td>@personel.HazırVaryant.HazırVaryantName</td>
+                <td>
+                    @foreach (var item in personel.VaryantDegerler.ToList())
+                    {
+                        <a class="fancybox">
+                            @item.VaryantValue,
+                        </a>
+                        
+                    }
+                    
+                </td>
+
+
+            </tr>
+        }
+
+    </tbody>
+
+
+</table>

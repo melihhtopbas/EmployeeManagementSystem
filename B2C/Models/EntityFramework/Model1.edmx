@@ -1,0 +1,343 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="VaryantlarModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="HazırDeger">
+          <Key>
+            <PropertyRef Name="HazırDegerId" />
+          </Key>
+          <Property Name="HazırDegerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HazırDegerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="HazırVaryantId" Type="int" />
+        </EntityType>
+        <EntityType Name="HazırVaryant">
+          <Key>
+            <PropertyRef Name="HazırVaryantId" />
+          </Key>
+          <Property Name="HazırVaryantId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HazırVaryantName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="VaryantDegerler">
+          <Key>
+            <PropertyRef Name="VaryantDegerId" />
+          </Key>
+          <Property Name="VaryantDegerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VaryantValue" Type="nvarchar" MaxLength="50" />
+          <Property Name="VaryantId" Type="int" />
+        </EntityType>
+        <EntityType Name="Varyants">
+          <Key>
+            <PropertyRef Name="VaryantId" />
+          </Key>
+          <Property Name="VaryantId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="HazırVaryantId" Type="int" />
+        </EntityType>
+        <Association Name="FK_HazırDeger_HazırVaryant">
+          <End Role="HazırVaryant" Type="Self.HazırVaryant" Multiplicity="0..1" />
+          <End Role="HazırDeger" Type="Self.HazırDeger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HazırVaryant">
+              <PropertyRef Name="HazırVaryantId" />
+            </Principal>
+            <Dependent Role="HazırDeger">
+              <PropertyRef Name="HazırVaryantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VaryantDegerler_Varyants">
+          <End Role="Varyants" Type="Self.Varyants" Multiplicity="0..1" />
+          <End Role="VaryantDegerler" Type="Self.VaryantDegerler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Varyants">
+              <PropertyRef Name="VaryantId" />
+            </Principal>
+            <Dependent Role="VaryantDegerler">
+              <PropertyRef Name="VaryantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Varyants_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+          <End Role="Varyants" Type="Self.Varyants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="Varyants">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Varyants_Varyants">
+          <End Role="HazırVaryant" Type="Self.HazırVaryant" Multiplicity="0..1" />
+          <End Role="Varyants" Type="Self.Varyants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HazırVaryant">
+              <PropertyRef Name="HazırVaryantId" />
+            </Principal>
+            <Dependent Role="Varyants">
+              <PropertyRef Name="HazırVaryantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="VaryantlarModelStoreContainer">
+          <EntitySet Name="HazırDeger" EntityType="Self.HazırDeger" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HazırVaryant" EntityType="Self.HazırVaryant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VaryantDegerler" EntityType="Self.VaryantDegerler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Varyants" EntityType="Self.Varyants" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_HazırDeger_HazırVaryant" Association="Self.FK_HazırDeger_HazırVaryant">
+            <End Role="HazırVaryant" EntitySet="HazırVaryant" />
+            <End Role="HazırDeger" EntitySet="HazırDeger" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VaryantDegerler_Varyants" Association="Self.FK_VaryantDegerler_Varyants">
+            <End Role="Varyants" EntitySet="Varyants" />
+            <End Role="VaryantDegerler" EntitySet="VaryantDegerler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Varyants_Products" Association="Self.FK_Varyants_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Varyants" EntitySet="Varyants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Varyants_Varyants" Association="Self.FK_Varyants_Varyants">
+            <End Role="HazırVaryant" EntitySet="HazırVaryant" />
+            <End Role="Varyants" EntitySet="Varyants" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="VaryantlarModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="VaryantlarEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="HazırDeger" EntityType="VaryantlarModel.HazırDeger" />
+          <EntitySet Name="HazırVaryant" EntityType="VaryantlarModel.HazırVaryant" />
+          <EntitySet Name="Products" EntityType="VaryantlarModel.Products" />
+          <EntitySet Name="sysdiagrams" EntityType="VaryantlarModel.sysdiagrams" />
+          <EntitySet Name="VaryantDegerler" EntityType="VaryantlarModel.VaryantDegerler" />
+          <EntitySet Name="Varyants" EntityType="VaryantlarModel.Varyants" />
+          <AssociationSet Name="FK_HazırDeger_HazırVaryant" Association="VaryantlarModel.FK_HazırDeger_HazırVaryant">
+            <End Role="HazırVaryant" EntitySet="HazırVaryant" />
+            <End Role="HazırDeger" EntitySet="HazırDeger" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Varyants_Varyants" Association="VaryantlarModel.FK_Varyants_Varyants">
+            <End Role="HazırVaryant" EntitySet="HazırVaryant" />
+            <End Role="Varyants" EntitySet="Varyants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Varyants_Products" Association="VaryantlarModel.FK_Varyants_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Varyants" EntitySet="Varyants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VaryantDegerler_Varyants" Association="VaryantlarModel.FK_VaryantDegerler_Varyants">
+            <End Role="Varyants" EntitySet="Varyants" />
+            <End Role="VaryantDegerler" EntitySet="VaryantDegerler" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="HazırDeger">
+          <Key>
+            <PropertyRef Name="HazırDegerId" />
+          </Key>
+          <Property Name="HazırDegerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HazırDegerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HazırVaryantId" Type="Int32" />
+          <NavigationProperty Name="HazırVaryant" Relationship="VaryantlarModel.FK_HazırDeger_HazırVaryant" FromRole="HazırDeger" ToRole="HazırVaryant" />
+        </EntityType>
+        <EntityType Name="HazırVaryant">
+          <Key>
+            <PropertyRef Name="HazırVaryantId" />
+          </Key>
+          <Property Name="HazırVaryantId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HazırVaryantName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HazırDeger" Relationship="VaryantlarModel.FK_HazırDeger_HazırVaryant" FromRole="HazırVaryant" ToRole="HazırDeger" />
+          <NavigationProperty Name="Varyants" Relationship="VaryantlarModel.FK_Varyants_Varyants" FromRole="HazırVaryant" ToRole="Varyants" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Varyants" Relationship="VaryantlarModel.FK_Varyants_Products" FromRole="Products" ToRole="Varyants" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="VaryantDegerler">
+          <Key>
+            <PropertyRef Name="VaryantDegerId" />
+          </Key>
+          <Property Name="VaryantDegerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VaryantValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="VaryantId" Type="Int32" />
+          <NavigationProperty Name="Varyants" Relationship="VaryantlarModel.FK_VaryantDegerler_Varyants" FromRole="VaryantDegerler" ToRole="Varyants" />
+        </EntityType>
+        <EntityType Name="Varyants">
+          <Key>
+            <PropertyRef Name="VaryantId" />
+          </Key>
+          <Property Name="VaryantId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="HazırVaryantId" Type="Int32" />
+          <NavigationProperty Name="HazırVaryant" Relationship="VaryantlarModel.FK_Varyants_Varyants" FromRole="Varyants" ToRole="HazırVaryant" />
+          <NavigationProperty Name="Products" Relationship="VaryantlarModel.FK_Varyants_Products" FromRole="Varyants" ToRole="Products" />
+          <NavigationProperty Name="VaryantDegerler" Relationship="VaryantlarModel.FK_VaryantDegerler_Varyants" FromRole="Varyants" ToRole="VaryantDegerler" />
+        </EntityType>
+        <Association Name="FK_HazırDeger_HazırVaryant">
+          <End Type="VaryantlarModel.HazırVaryant" Role="HazırVaryant" Multiplicity="0..1" />
+          <End Type="VaryantlarModel.HazırDeger" Role="HazırDeger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HazırVaryant">
+              <PropertyRef Name="HazırVaryantId" />
+            </Principal>
+            <Dependent Role="HazırDeger">
+              <PropertyRef Name="HazırVaryantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Varyants_Varyants">
+          <End Type="VaryantlarModel.HazırVaryant" Role="HazırVaryant" Multiplicity="0..1" />
+          <End Type="VaryantlarModel.Varyants" Role="Varyants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HazırVaryant">
+              <PropertyRef Name="HazırVaryantId" />
+            </Principal>
+            <Dependent Role="Varyants">
+              <PropertyRef Name="HazırVaryantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Varyants_Products">
+          <End Type="VaryantlarModel.Products" Role="Products" Multiplicity="0..1" />
+          <End Type="VaryantlarModel.Varyants" Role="Varyants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="Varyants">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VaryantDegerler_Varyants">
+          <End Type="VaryantlarModel.Varyants" Role="Varyants" Multiplicity="0..1" />
+          <End Type="VaryantlarModel.VaryantDegerler" Role="VaryantDegerler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Varyants">
+              <PropertyRef Name="VaryantId" />
+            </Principal>
+            <Dependent Role="VaryantDegerler">
+              <PropertyRef Name="VaryantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="VaryantlarModelStoreContainer" CdmEntityContainer="VaryantlarEntities">
+          <EntitySetMapping Name="HazırDeger">
+            <EntityTypeMapping TypeName="VaryantlarModel.HazırDeger">
+              <MappingFragment StoreEntitySet="HazırDeger">
+                <ScalarProperty Name="HazırVaryantId" ColumnName="HazırVaryantId" />
+                <ScalarProperty Name="HazırDegerName" ColumnName="HazırDegerName" />
+                <ScalarProperty Name="HazırDegerId" ColumnName="HazırDegerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HazırVaryant">
+            <EntityTypeMapping TypeName="VaryantlarModel.HazırVaryant">
+              <MappingFragment StoreEntitySet="HazırVaryant">
+                <ScalarProperty Name="HazırVaryantName" ColumnName="HazırVaryantName" />
+                <ScalarProperty Name="HazırVaryantId" ColumnName="HazırVaryantId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="VaryantlarModel.Products">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="VaryantlarModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VaryantDegerler">
+            <EntityTypeMapping TypeName="VaryantlarModel.VaryantDegerler">
+              <MappingFragment StoreEntitySet="VaryantDegerler">
+                <ScalarProperty Name="VaryantId" ColumnName="VaryantId" />
+                <ScalarProperty Name="VaryantValue" ColumnName="VaryantValue" />
+                <ScalarProperty Name="VaryantDegerId" ColumnName="VaryantDegerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Varyants">
+            <EntityTypeMapping TypeName="VaryantlarModel.Varyants">
+              <MappingFragment StoreEntitySet="Varyants">
+                <ScalarProperty Name="HazırVaryantId" ColumnName="HazırVaryantId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="VaryantId" ColumnName="VaryantId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

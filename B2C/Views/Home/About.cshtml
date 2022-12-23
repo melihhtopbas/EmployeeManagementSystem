@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<p>Use this area to provide additional information.</p>
+<script src="~/Scripts/jquery-3.4.1.min.js">
+</script>
+<script>
+    $(document).ready(function () {
+        $("#j").click(function () {
+            $.getJSON("/Home/GetProducts", null, function (data) {
+                $.each(data, function (i, eleman) {
+                    $("#ull").append("<li>" + eleman.HazırDegerName + "<li>");
+
+                })
+            })
+        })
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+<button id="j">
+    Getir
+</button>
+<ul id="ull">
+
+</ul>

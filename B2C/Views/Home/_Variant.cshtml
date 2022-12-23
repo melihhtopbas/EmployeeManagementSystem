@@ -1,0 +1,31 @@
+﻿@model B2C.Models.EntityFramework.VaryantDegerler
+
+<div class="editorRow">
+    @using (Html.BeginCollectionItem("VaryantlarDegeris"))
+    {
+
+        <table class="table table-bordered">
+
+            <tr>
+                <td class="form-group">
+                    @Html.LabelFor(m => m.VaryantValue)
+                    @Html.TextBoxFor(m => m.VaryantValue, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.VaryantValue)
+
+                </td>
+                <td>
+                    <span class="dltBtn">
+                        <input type="image" src="~/Image/carpı.png" width="75" height="75" class="deleteRow btn btn-danger" />
+                    </span>
+                </td>
+
+            </tr>
+
+
+
+            @Html.HiddenFor(m => m.VaryantId)
+
+        </table>
+
+    }
+</div>
